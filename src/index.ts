@@ -1,7 +1,47 @@
-// import 'axios';
+import axios from 'axios';
 import 'aframe';
+import 'aframe-extras'
 
 declare var AFRAME: any;
+
+AFRAME.registerComponent('img4chan', { 
+
+  async init () {
+    const posts = (await axios.get('https://a.4cdn.org/a/thread/202427545.json')).data.posts;
+    debugger;
+    for (let post of posts) {
+      if (post.tim) {
+        // debugger;
+      }
+    }
+
+    // debugger;
+
+    // TODO: Images within the post seem not to be working, maybe there are too big?
+    // Maybe try other cors proxies https://nordicapis.com/10-free-to-use-cors-proxies/
+
+    const assets = document.querySelector("#assets");
+    const scene = document.querySelector("#scene");
+    // const imgTest = document.querySelector("#imgTest");
+
+    const newAsset = document.createElement('img');
+    newAsset.setAttribute("id", "img4chan")
+    newAsset.setAttribute("src", "https://cors-anywhere.herokuapp.com/https://i.4cdn.org/a/1588378060081.jpg");
+    newAsset.setAttribute("crossorigin", "anonymous");
+    assets.appendChild(newAsset);
+    // imgTest.setAttribute("src", "#imgTest");
+    // debugger;
+
+    // <a-image id="imgTest" class="intersectable" dragrable position="0 1.5 -2" width="2" height="1"></a-image>
+    const newImage =document.createElement("a-image");
+    newImage.setAttribute("position", "0 1.5 -2");
+    newImage.setAttribute("width", "2");
+    newImage.setAttribute("height", "1");
+    newImage.setAttribute("src", "#img4chan");
+    scene.appendChild(newImage);
+  }
+
+});
 
 AFRAME.registerComponent('dragrable', { 
   init () {
